@@ -9,12 +9,14 @@ class SetTimeScreen extends StatefulWidget {
   final int max;
   final int steps;
   final String screen;
+  final int initialValue;
 
   const SetTimeScreen({
     required this.screen,
     this.min = 10,
     this.max = 120,
     this.steps = 5,
+    this.initialValue = 10,
     super.key,
   });
 
@@ -23,7 +25,13 @@ class SetTimeScreen extends StatefulWidget {
 }
 
 class _SetTimeScreenState extends State<SetTimeScreen> {
-  int _currentIntValue = 10;
+  late int _currentIntValue;
+
+  @override
+  void initState() {
+    _currentIntValue = widget.initialValue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

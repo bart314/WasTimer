@@ -8,17 +8,9 @@ class TimerProvider extends ChangeNotifier {
   late CountDownController _controller;
   late List<CountDownTimer> _screens;
   //https://stackoverflow.com/a/67198166/10974490
-  bool _hasBeenStarted = false;
 
   bool _paused = false;
   bool get isPaused => _paused;
-  //TODO
-  late final InstellingenProvider _instellingenProvider;
-
-  void setInstellingenProvider(InstellingenProvider p) {
-    _instellingenProvider = p;
-    debugPrint('color provider set');
-  }
 
   int _index = 0;
   CountDownTimer get currentScreen => _screens[_index];

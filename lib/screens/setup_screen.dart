@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_app/config/config.dart';
@@ -112,13 +113,19 @@ class SetupScreen extends StatelessWidget {
       default:
         icon = Icon(Icons.question_mark);
     }
+    int time = Provider.of<TimerProvider>(context).getTime(what);
 
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) =>
-                SetTimeScreen(screen: what, min: min, max: max, steps: steps),
+            builder: (context) => SetTimeScreen(
+              screen: what,
+              min: min,
+              max: max,
+              steps: steps,
+              initialValue: time,
+            ),
           ),
         );
       },

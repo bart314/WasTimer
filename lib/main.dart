@@ -9,13 +9,7 @@ void main() => runApp(
   MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => TimerProvider()),
-      ChangeNotifierProxyProvider<TimerProvider, InstellingenProvider>(
-        create: (context) => InstellingenProvider(),
-        update: (context, timer, prefs) {
-          timer.setInstellingenProvider(prefs!);
-          return prefs;
-        },
-      ),
+      ChangeNotifierProvider(create: (context) => InstellingenProvider()),
     ],
     child: const WasTimer(),
   ),

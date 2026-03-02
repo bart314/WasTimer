@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timer_app/config/config.dart';
 
 class InstellingenProvider extends ChangeNotifier {
   final Future<SharedPreferencesWithCache> _prefs =
@@ -8,6 +9,9 @@ class InstellingenProvider extends ChangeNotifier {
           allowList: <String>{'screen1', 'screen2'},
         ),
       );
+
+  late Map<String, Color> _currentColor;
+  Map<String, Color> currentColor() => _currentColor;
 
   // Future<void> getColorScheme(String which) async {
   //   final prefs = SharedPreferencesAsync();
@@ -19,5 +23,10 @@ class InstellingenProvider extends ChangeNotifier {
     final prefs = SharedPreferencesAsync();
     final int foo = await prefs.getInt('ctr') ?? 0;
     return {Colors.blue, Colors.amberAccent, Colors.amber};
+  }
+
+  Future<void> getColor(String what) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    //_currentColor['actie'] = Config.get
   }
 }

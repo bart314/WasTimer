@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_app/config/config.dart';
+import 'package:timer_app/providers/color_provider.dart';
 import 'package:timer_app/providers/timer_provider.dart';
 import 'package:timer_app/screens/setup_screen.dart';
 
@@ -33,7 +34,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
   @override
   void initState() {
     super.initState();
-    debugPrint('type timer: ${widget.type}');
+    debugPrint("Init state called: ${widget.type}");
     _voice = Config.getVoice();
 
     _audioPlayer.setReleaseMode(ReleaseMode.stop);
@@ -49,9 +50,11 @@ class _CountDownTimerState extends State<CountDownTimer> {
   @override
   Widget build(BuildContext context) {
     final timer = Provider.of<TimerProvider>(context);
+    final settings = Provider.of<InstellingenProvider>(context);
     _ringColor = Config.getRingColor(widget.type);
     _backgroundColor = Config.getBackgroundColor(widget.type);
     _fillColor = Config.getFillColor(widget.type);
+    debugPrint(settings.toString());
 
     return Scaffold(
       appBar: AppBar(
