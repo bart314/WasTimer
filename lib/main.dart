@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_app/providers/color_provider.dart';
@@ -25,8 +26,6 @@ class WasTimer extends StatefulWidget {
 class _WasTimerState extends State<WasTimer> {
   @override
   Widget build(BuildContext context) {
-    final timer = Provider.of<TimerProvider>(context);
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WAS Timer',
@@ -34,8 +33,8 @@ class _WasTimerState extends State<WasTimer> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:
-          SetupScreen(), //( screen: 'actie',), //SetupScreen(), //timer.currentScreen,
+      home: SetupScreen(), //TestScreen(),
+      //SetupScreen(), //( screen: 'actie',), //SetupScreen(), //timer.currentScreen,
     );
   }
 }
@@ -48,27 +47,27 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  AudioPlayer _player = AudioPlayer();
-
-  void initState() {
-    super.initState();
-    //_player.setSource(AssetSource('test.mp3'));
-  }
-
   @override
   Widget build(BuildContext context) {
+    final timeProvider = Provider.of<TimerProvider>(context);
+
     return Scaffold(
-      appBar: AppBar(title: Text('audio test')),
-      body: Column(
-        children: [
-          Text(_player.state.toString()),
-          ElevatedButton(
-            onPressed: () async {
-              await _player.play(AssetSource('sounds/test.mp3'));
-            },
-            child: Text('Test Audio'),
-          ),
-        ],
+      appBar: AppBar(title: Text('Refactor Test')),
+      body: Center(
+        child: Column(
+          children: [
+            // Text(timeProvider.timers[timeProvider.index].type),
+            CircularCountDownTimer(
+              width: 100,
+              height: 100,
+              duration: 10,
+              fillColor: Colors.green,
+              ringColor: Colors.greenAccent,
+              autoStart: true,
+              onComplete: () => timeProvider.nextScreen(),
+            ),
+          ],
+        ),
       ),
     );
   }

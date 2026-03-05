@@ -8,16 +8,7 @@ import 'package:timer_app/providers/timer_provider.dart';
 import 'package:timer_app/screens/setup_screen.dart';
 
 class CountDownTimer extends StatefulWidget {
-  final int duration;
-  final String type;
-  final CountDownController controller;
-
-  const CountDownTimer({
-    super.key,
-    required this.type,
-    required this.duration,
-    required this.controller,
-  });
+  const CountDownTimer({super.key});
 
   @override
   State<CountDownTimer> createState() => _CountDownTimerState();
@@ -30,11 +21,13 @@ class _CountDownTimerState extends State<CountDownTimer> {
   late Color _backgroundColor;
   late String _voice;
   late AssetSource _endSound;
+  bool _isPaused = false;
+
+  final CountDownController _controller = CountDownController();
 
   @override
   void initState() {
     super.initState();
-    debugPrint("Init state called: ${widget.type}");
     _voice = Config.getVoice();
 
     _audioPlayer.setReleaseMode(ReleaseMode.stop);
@@ -50,17 +43,18 @@ class _CountDownTimerState extends State<CountDownTimer> {
   @override
   Widget build(BuildContext context) {
     final timer = Provider.of<TimerProvider>(context);
-    final settings = Provider.of<InstellingenProvider>(context);
-    _ringColor = Config.getRingColor(widget.type);
-    _backgroundColor = Config.getBackgroundColor(widget.type);
-    _fillColor = Config.getFillColor(widget.type);
-    debugPrint(settings.toString());
+    final String curType = timer.type;
+
+    // final settings = Provider.of<InstellingenProvider>(context);
+    _ringColor = Config.getRingColor(curType);
+    _backgroundColor = Config.getBackgroundColor(curType);
+    _fillColor = Config.getFillColor(curType);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _backgroundColor,
         title: Text(
-          widget.type,
+          curType,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
@@ -70,8 +64,8 @@ class _CountDownTimerState extends State<CountDownTimer> {
           Text(timer.getCurrentText()),
           Center(
             child: CircularCountDownTimer(
-              duration: widget.duration,
-              controller: widget.controller,
+              duration: timer.getTime(curType),
+              controller: _controller,
 
               width: MediaQuery.of(context).size.width / 2,
               height: MediaQuery.of(context).size.height / 2,
@@ -94,11 +88,12 @@ class _CountDownTimerState extends State<CountDownTimer> {
                 debugPrint('Countdown Ended');
                 _audioPlayer.stop();
                 timer.nextScreen();
+                _controller.restart();
               },
 
               onChange: (String timeStamp) async {
                 if (int.parse(timeStamp) == 5) {
-                  _endSound = widget.type == 'rust'
+                  _endSound = curType == 'rust'
                       ? AssetSource('sounds/$_voice/actie.mp3')
                       : AssetSource('sounds/$_voice/stop.mp3');
                   debugPrint('playing audio...');
@@ -114,13 +109,19 @@ class _CountDownTimerState extends State<CountDownTimer> {
         children: [
           ElevatedButton(
             onPressed: () {
-              timer.isPaused ? timer.resume() : timer.pause();
+              if (_isPaused) {
+                _controller.resume();
+                _isPaused = false;
+              } else {
+                _controller.pause();
+                _isPaused = true;
+              }
             },
-            child: timer.isPaused ? Text('Doorgaan') : Text('Pauzeren'),
+            child: _isPaused ? Text('Doorgaan') : Text('Pauzeren'),
           ),
           ElevatedButton(
             onPressed: () {
-              timer.startTimers();
+              // timer.startTimers();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => SetupScreen()),

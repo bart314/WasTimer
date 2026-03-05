@@ -1,19 +1,8 @@
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
-import 'package:timer_app/config/config.dart';
-import 'package:timer_app/providers/color_provider.dart';
-import 'package:timer_app/screens/countdown_timer.dart';
 
 class TimerProvider extends ChangeNotifier {
-  late CountDownController _controller;
-  late List<CountDownTimer> _screens;
-  //https://stackoverflow.com/a/67198166/10974490
-
-  bool _paused = false;
-  bool get isPaused => _paused;
-
   int _index = 0;
-  CountDownTimer get currentScreen => _screens[_index];
+  int get index => _index;
 
   // reps is een combinatie van actie en rust
   // als we 8 oefeningen hebben, loopt rep van 0 tot en met 7
@@ -37,42 +26,10 @@ class TimerProvider extends ChangeNotifier {
     'herhalingen': 2,
   };
 
+  final List<String> _types = ["actie", "rust", "pauze"];
+  String get type => _types[_index];
+
   int getTime(String s) => _times[s]!;
-
-  TimerProvider() {
-    _controller = CountDownController();
-    _index = 0;
-    _updateScreens();
-  }
-
-  void _updateScreens() {
-    debugPrint('update screens');
-    _screens = [
-      CountDownTimer(
-        type: 'actie',
-        duration: _times['actie']!,
-        controller: _controller,
-      ),
-      CountDownTimer(
-        type: 'rust',
-        duration: _times['rust']!,
-        controller: _controller,
-      ),
-      CountDownTimer(
-        type: 'pauze',
-        duration: _times['pauze']!,
-        controller: _controller,
-      ),
-    ];
-  }
-
-  void startTimers() {
-    debugPrint('startTimers called');
-    _updateScreens();
-    _index = 0;
-    _paused = false;
-    _currentState = _actieState;
-  }
 
   void nextScreen() {
     if (_currentState == _actieState) {
@@ -102,20 +59,6 @@ class TimerProvider extends ChangeNotifier {
       }
     }
 
-    int nextDuration = _screens[_index].duration;
-    _controller.restart(duration: nextDuration);
-    notifyListeners();
-  }
-
-  void pause() {
-    _controller.pause();
-    _paused = true;
-    notifyListeners();
-  }
-
-  void resume() {
-    _controller.resume();
-    _paused = false;
     notifyListeners();
   }
 

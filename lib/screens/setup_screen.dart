@@ -1,8 +1,8 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_app/config/config.dart';
 import 'package:timer_app/providers/timer_provider.dart';
+import 'package:timer_app/screens/countdown_timer.dart';
 import 'package:timer_app/screens/number_picker.dart';
 
 class SetupScreen extends StatelessWidget {
@@ -55,10 +55,10 @@ class SetupScreen extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
-          timeProvider.startTimers();
+          // timeProvider.startTimers();
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => timeProvider.currentScreen),
+            MaterialPageRoute(builder: (context) => CountDownTimer()),
           );
         },
         items: [
