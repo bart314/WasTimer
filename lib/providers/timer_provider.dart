@@ -29,6 +29,15 @@ class TimerProvider extends ChangeNotifier {
   final List<String> _types = ["actie", "rust", "pauze"];
   String get type => _types[_index];
 
+  String get total {
+    var tmp = (_times['actie']! + _times['rust']!) * _times['oefeningen']!;
+    tmp += _times['pauze']!;
+    tmp *= _times['herhalingen']!;
+
+    var t = Duration(seconds: tmp);
+    return '${t.inMinutes}min, ${(t.inSeconds % 60).floor()}sec';
+  }
+
   int getTime(String s) => _times[s]!;
 
   void nextScreen() {

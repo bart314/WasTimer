@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_app/config/config.dart';
-import 'package:timer_app/providers/color_provider.dart';
+import 'package:timer_app/providers/instellingen_provider.dart';
 import 'package:timer_app/providers/timer_provider.dart';
 import 'package:timer_app/screens/setup_screen.dart';
 
@@ -106,31 +106,36 @@ class _CountDownTimerState extends State<CountDownTimer> {
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              if (_isPaused) {
-                _controller.resume();
-                _isPaused = false;
-              } else {
-                _controller.pause();
-                _isPaused = true;
-              }
-            },
-            child: _isPaused ? Text('Doorgaan') : Text('Pauzeren'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // timer.startTimers();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => SetupScreen()),
-              );
-            },
-            child: Text('Stoppen'),
-          ),
-        ],
+        children: [pauseButton(), stopButton(context)],
       ),
+    );
+  }
+
+  ElevatedButton stopButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        // timer.startTimers();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SetupScreen()),
+        );
+      },
+      child: Text('Stoppen'),
+    );
+  }
+
+  ElevatedButton pauseButton() {
+    return ElevatedButton(
+      onPressed: () {
+        if (_isPaused) {
+          _controller.resume();
+          setState(() => _isPaused = false);
+        } else {
+          _controller.pause();
+          setState(() => _isPaused = true);
+        }
+      },
+      child: _isPaused ? Text('Doorgaan') : Text('Pauzeren'),
     );
   }
 }

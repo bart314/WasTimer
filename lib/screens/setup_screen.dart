@@ -11,15 +11,21 @@ class SetupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final timeProvider = Provider.of<TimerProvider>(context);
+
     debugPrint('build in setupscreen..');
     return Scaffold(
       appBar: AppBar(title: Text('Trainingsinstellingen')),
-      body: Padding(
-        padding: EdgeInsetsGeometry.all(20),
+      body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Center(
+              child: Text(
+                'Trainingstijd: ${timeProvider.total}',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ),
             buttonCard(
               'Hard werken',
               'actie',
