@@ -44,14 +44,14 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsetsGeometry.all(40),
+              padding: EdgeInsetsGeometry.all(20),
               child: Text(
                 Config.getDescription(widget.screen),
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
             SizedBox(height: 20),
@@ -64,14 +64,13 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
               itemHeight: 70,
               itemCount: 5,
               textStyle: Theme.of(context).textTheme.displaySmall,
-              selectedTextStyle: Theme.of(context).textTheme.displayLarge!
+              selectedTextStyle: Theme.of(context).textTheme.displayMedium!
                   .copyWith(color: Config.getFillColor(widget.screen)),
               onChanged: (value) => setState(() => _currentIntValue = value),
             ),
             Text('seconden'),
             //ElevatedButton(onPressed: null, child: Text('Opslaan')),
             saveButton(context),
-            SizedBox(height: 10),
           ],
         ),
       ),
@@ -98,10 +97,9 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                 title: Text('Opslaan', style: TextStyle(fontSize: 25)),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text('... en terug naar het hoofdscherm.'),
-                  const SizedBox(width: 18),
+                  Text('... en terug.', overflow: TextOverflow.clip),
                 ],
               ),
             ],

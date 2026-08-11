@@ -2,31 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timer_app/config/config.dart';
 
+// https://stackoverflow.com/a/72117605/10974490
+
 class InstellingenProvider extends ChangeNotifier {
-  final Future<SharedPreferencesWithCache> _prefs =
-      SharedPreferencesWithCache.create(
-        cacheOptions: const SharedPreferencesWithCacheOptions(
-          allowList: <String>{'screen1', 'screen2'},
-        ),
-      );
+  static late final SharedPreferences _prefs;
 
-  late Map<String, Color> _currentColor;
-  Map<String, Color> currentColor() => _currentColor;
-
-  // Future<void> getColorScheme(String which) async {
-  //   final prefs = SharedPreferencesAsync();
-  //   final int externalCounter = (await prefs.getInt('externalCounter')) ?? 0;
-  //   notifyListeners();
-  // }
-
-  Future<Set<ColorSwatch<int>>> getColorScheme(String which) async {
-    final prefs = SharedPreferencesAsync();
-    final int foo = await prefs.getInt('ctr') ?? 0;
-    return {Colors.blue, Colors.amberAccent, Colors.amber};
+  String _voice = 'Bart';
+  String get voice {
+    if (_prefs.containsKey('voice')) {
+      _voice = _prefs.getString('voice')!;
+    }
+    return _voice;
   }
 
-  Future<void> getColor(String what) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    //_currentColor['actie'] = Config.get
+  set voice(String v) {
+    _prefs.setString('voice', v);
+    _voice = v;
+    notifyListeners();
+  }
+
+  static Future<void> init() async {
+    _prefs = await SharedPreferences.getInstance();
   }
 }

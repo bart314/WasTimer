@@ -22,8 +22,9 @@ class SetupScreen extends StatelessWidget {
           children: [
             Center(
               child: Text(
-                'Trainingstijd: ${timeProvider.total}',
+                'Trainingstijd: \n${timeProvider.total}',
                 style: Theme.of(context).textTheme.headlineMedium,
+                textAlign: TextAlign.center,
               ),
             ),
             buttonCard(

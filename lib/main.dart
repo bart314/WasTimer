@@ -4,17 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_app/providers/instellingen_provider.dart';
 import 'package:timer_app/providers/timer_provider.dart';
+import 'package:timer_app/screens/instellingen_screen.dart';
 import 'package:timer_app/screens/setup_screen.dart';
 
-void main() => runApp(
-  MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => TimerProvider()),
-      ChangeNotifierProvider(create: (context) => InstellingenProvider()),
-    ],
-    child: const WasTimer(),
-  ),
-);
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await InstellingenProvider.init();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => TimerProvider()),
+        ChangeNotifierProvider(create: (context) => InstellingenProvider()),
+      ],
+      child: const WasTimer(),
+    ),
+  );
+}
 
 class WasTimer extends StatefulWidget {
   const WasTimer({super.key});
@@ -33,7 +39,7 @@ class _WasTimerState extends State<WasTimer> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SetupScreen(), //TestScreen(),
+      home: InstellingenScreen(),
       //SetupScreen(), //( screen: 'actie',), //SetupScreen(), //timer.currentScreen,
     );
   }
