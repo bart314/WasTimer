@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timer_app/providers/audio_provider.dart';
 import 'package:timer_app/providers/instellingen_provider.dart';
 import 'package:timer_app/providers/timer_provider.dart';
 import 'package:timer_app/screens/instellingen_screen.dart';
@@ -16,6 +17,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => TimerProvider()),
         ChangeNotifierProvider(create: (context) => InstellingenProvider()),
+        ChangeNotifierProvider(create: (context) => AudioProvider()),
       ],
       child: const WasTimer(),
     ),

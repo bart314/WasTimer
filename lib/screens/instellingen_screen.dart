@@ -1,5 +1,7 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timer_app/providers/audio_provider.dart';
 import 'package:timer_app/providers/instellingen_provider.dart';
 
 class InstellingenScreen extends StatefulWidget {
@@ -41,20 +43,32 @@ class _InstellingenScreenState extends State<InstellingenScreen> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Text('klaar')],
+        ),
+      ),
     );
   }
 }
 
 class VoiceCard extends StatelessWidget {
   final String voice;
+  final AudioPlayer _player = AudioPlayer();
 
-  const VoiceCard({super.key, required this.voice});
+  VoiceCard({super.key, required this.voice});
 
   @override
   Widget build(BuildContext context) {
-    final henk = Provider.of<InstellingenProvider>(context);
+    final preferences = Provider.of<InstellingenProvider>(context);
+    final audioProvider = Provider.of<AudioProvider>(context);
+    final bool playing =
+        audioProvider.playing && audioProvider.currentlyPlayer == voice;
+
     return GestureDetector(
-      onTap: () => henk.voice = voice,
+      onTap: () => preferences.voice = voice,
       child: Card(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,7 +78,7 @@ class VoiceCard extends StatelessWidget {
               size: 50,
               color: Theme.of(context).colorScheme.inversePrimary,
             ),
-            henk.voice == voice ? Icon(Icons.check) : Text(''),
+            preferences.voice == voice ? Icon(Icons.check) : Text(''),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -75,10 +89,23 @@ class VoiceCard extends StatelessWidget {
                 ),
               ],
             ),
-            Icon(
-              Icons.play_circle_outline,
-              size: 50,
-              color: Colors.purple[200],
+
+            IconButton(
+              icon: playing
+                  ? Icon(Icons.pause, size: 50, color: Colors.purple[200])
+                  : Icon(
+                      Icons.play_circle_outline,
+                      size: 50,
+                      color: Colors.purple[200],
+                    ),
+              onPressed: () {
+                if (playing) {
+                  audioProvider.stop();
+                } else {
+                  audioProvider.currentlyPlaying = voice;
+                  audioProvider.playDemo(preferences.voice);
+                }
+              },
             ),
           ],
         ),
