@@ -13,8 +13,11 @@ class AudioProvider extends ChangeNotifier {
       _player.state != PlayerState.completed;
 
   void playDemo(String voice) async {
+    _currentlyPlaying = voice;
+    notifyListeners();
+
     _player.onPlayerComplete.listen((event) => notifyListeners());
-    await _player.play(AssetSource('sounds/bart/demo.mp3'));
+    await _player.play(AssetSource('sounds/${voice.toLowerCase()}/demo.mp3'));
 
     notifyListeners();
   }

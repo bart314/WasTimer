@@ -7,10 +7,11 @@ import 'package:timer_app/providers/instellingen_provider.dart';
 import 'package:timer_app/providers/timer_provider.dart';
 import 'package:timer_app/screens/instellingen_screen.dart';
 import 'package:timer_app/screens/setup_screen.dart';
+import 'package:timer_app/services/preferences_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await InstellingenProvider.init();
+  await PreferencesService.init();
 
   runApp(
     MultiProvider(

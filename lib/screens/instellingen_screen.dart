@@ -12,7 +12,7 @@ class InstellingenScreen extends StatefulWidget {
 }
 
 class _InstellingenScreenState extends State<InstellingenScreen> {
-  final List<String> voices = ['Bart', 'Sofia', 'Fenna'];
+  final List<String> voices = ['Bart', 'Fenna'];
 
   @override
   Widget build(BuildContext context) {
@@ -56,19 +56,19 @@ class _InstellingenScreenState extends State<InstellingenScreen> {
 
 class VoiceCard extends StatelessWidget {
   final String voice;
-  final AudioPlayer _player = AudioPlayer();
 
-  VoiceCard({super.key, required this.voice});
+  const VoiceCard({super.key, required this.voice});
 
   @override
   Widget build(BuildContext context) {
-    final preferences = Provider.of<InstellingenProvider>(context);
     final audioProvider = Provider.of<AudioProvider>(context);
+    final instellingen = Provider.of<InstellingenProvider>(context);
+
     final bool playing =
         audioProvider.playing && audioProvider.currentlyPlayer == voice;
 
     return GestureDetector(
-      onTap: () => preferences.voice = voice,
+      onTap: () => instellingen.voice = voice,
       child: Card(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -78,7 +78,7 @@ class VoiceCard extends StatelessWidget {
               size: 50,
               color: Theme.of(context).colorScheme.inversePrimary,
             ),
-            preferences.voice == voice ? Icon(Icons.check) : Text(''),
+            instellingen.voice == voice ? Icon(Icons.check) : Text(''),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -102,8 +102,7 @@ class VoiceCard extends StatelessWidget {
                 if (playing) {
                   audioProvider.stop();
                 } else {
-                  audioProvider.currentlyPlaying = voice;
-                  audioProvider.playDemo(preferences.voice);
+                  audioProvider.playDemo(voice);
                 }
               },
             ),
