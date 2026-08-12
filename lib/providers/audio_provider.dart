@@ -4,6 +4,14 @@ import 'package:flutter/material.dart';
 class AudioProvider extends ChangeNotifier {
   final AudioPlayer _player = AudioPlayer();
 
+  AudioProvider() {
+    _player.setReleaseMode(ReleaseMode.stop);
+    _player.pause();
+  }
+
+  String _voice = 'bart';
+  set voice(String v) => _voice = v;
+
   String _currentlyPlaying = '';
   String get currentlyPlayer => _currentlyPlaying;
   set currentlyPlaying(String v) => _currentlyPlaying = v;
@@ -26,5 +34,15 @@ class AudioProvider extends ChangeNotifier {
     _player.stop();
     _currentlyPlaying = '';
     notifyListeners();
+  }
+
+  void playAction() {
+    _player.play(AssetSource('sounds/${_voice.toLowerCase()}/actie.mp3'));
+    _currentlyPlaying = 'actie';
+  }
+
+  void playRest() {
+    _player.play(AssetSource('sounds/${_voice.toLowerCase()}/stop.mp3'));
+    _currentlyPlaying = 'stop';
   }
 }

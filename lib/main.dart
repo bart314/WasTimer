@@ -42,8 +42,9 @@ class _WasTimerState extends State<WasTimer> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: InstellingenScreen(),
-      //SetupScreen(), //( screen: 'actie',), //SetupScreen(), //timer.currentScreen,
+      home: SetupScreen(),
+      //InstellingenScreen(),
+      //, //( screen: 'actie',), //SetupScreen(), //timer.currentScreen,
     );
   }
 }

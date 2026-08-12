@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:timer_app/config/config.dart';
 import 'package:timer_app/providers/timer_provider.dart';
 import 'package:timer_app/screens/countdown_timer.dart';
+import 'package:timer_app/screens/instellingen_screen.dart';
 import 'package:timer_app/screens/number_picker.dart';
 
 class SetupScreen extends StatelessWidget {
@@ -62,11 +63,19 @@ class SetupScreen extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
-          // timeProvider.startTimers();
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => CountDownTimer()),
-          );
+          if (value == 0) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => CountDownTimer()),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (context) => const InstellingenScreen(),
+              ),
+            );
+          }
         },
         items: [
           BottomNavigationBarItem(
