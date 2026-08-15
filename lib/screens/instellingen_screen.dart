@@ -12,43 +12,31 @@ class InstellingenScreen extends StatefulWidget {
 }
 
 class _InstellingenScreenState extends State<InstellingenScreen> {
-  final List<String> voices = ['Bart', 'Fenna'];
+  final List<String> voices = [
+    'Bart',
+    'Fenna',
+    'Piet',
+    'Klaas',
+    'Henk',
+    'Dylan',
+    'Rob',
+    'Martin',
+    'Françoise',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('WASTimer instellingen')),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Text(
-              'Welke stem?',
-              style: Theme.of(context).textTheme.headlineSmall,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Center(
-            child: ListView.separated(
-              separatorBuilder: (context, index) =>
-                  SizedBox.square(dimension: 14),
+      appBar: AppBar(title: Text('Welke stem?')),
+      body: ListView.separated(
+        separatorBuilder: (context, index) => SizedBox.square(dimension: 14),
 
-              padding: const EdgeInsets.all(12),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: voices.length,
-              itemBuilder: (BuildContext ctx, int idx) =>
-                  VoiceCard(voice: voices[idx]),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('klaar')],
-        ),
+        padding: const EdgeInsets.all(12),
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: voices.length,
+        itemBuilder: (BuildContext ctx, int idx) =>
+            VoiceCard(voice: voices[idx]),
       ),
     );
   }
@@ -71,7 +59,7 @@ class VoiceCard extends StatelessWidget {
       onTap: () => instellingen.voice = voice,
       child: Card(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(
               Icons.woman,
@@ -79,15 +67,20 @@ class VoiceCard extends StatelessWidget {
               color: Theme.of(context).colorScheme.inversePrimary,
             ),
             instellingen.voice == voice ? Icon(Icons.check) : Text(''),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(voice, style: Theme.of(context).textTheme.headlineSmall),
-                Text(
-                  'Allemaal dingen',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(voice, style: Theme.of(context).textTheme.headlineSmall),
+
+                  Text(
+                    'Korte beschrijving van $voice met allemaal interessante dingen om lange tekst te maken',
+                    style: Theme.of(context).textTheme.bodySmall,
+                    maxLines: 2,
+                    overflow: TextOverflow.fade,
+                  ),
+                ],
+              ),
             ),
 
             IconButton(
